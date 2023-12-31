@@ -52,8 +52,6 @@ function compileInstruction(abstractInstruction, reducingLevel){
     let types = []
     let operands = []
     for(let i of abstractInstruction[1]){
-        console.log(`type_${
-            Object.keys(TYPE).find(key => TYPE[key] === i[0])}`)
         types.push(document.getElementById(`type_${
             Object.keys(TYPE).find(key => TYPE[key] === i[0])}`).value)
         operands.push(i[1])
@@ -69,7 +67,7 @@ function compileInstruction(abstractInstruction, reducingLevel){
 
     result.push(compileBits(opcode, 1, opcodebigalign))
     for(let i = 0; i < types.length; i++){
-        result.push(compileBits((operands[i] >>> 0).toString(2), 2+i, operandbitalign))
+        result.push(compileBits((operands[i] >>> 0).toString(2), 2+i, operandbitalign, true))
         if(discardtypes){
             if(INPUTS[abstractInstruction[0]][i].length > 2){
                 result.push(compileBits((types[i] >>> 0).toString(2), 5+i, operandtypebitalign))
@@ -114,11 +112,11 @@ function compileInstruction(abstractInstruction, reducingLevel){
     return r.replace(/-/g, "0")
 }
 
-function compileBits(bytecode, type, bitalign){
+function compileBits(bytecode, type, bitalign, forcebits = false){
     let l = canvas.bytesize*canvas.modules
     let result = Array(l).fill("-")
 
-    bytecode = "0".repeat(bits - bytecode.length) + bytecode
+    if(forcebits) bytecode = "0".repeat(bits - bytecode.length) + bytecode
     if((bitalign == 1) | (bitalign == 2)){
         bytecode = bytecode.split("").reverse().join("")
     }
