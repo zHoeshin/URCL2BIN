@@ -42,6 +42,14 @@ const OPCODE = {
     NOP: 0,
     IN: 41,
     OUT: 42,
+    MLT: 43,
+    MOD: 44,
+    DIV: 45,
+    SDIV: 46,
+    BRS: 47,
+    BLS: 48,
+    SRS: 49,
+    BSS: 50,
 }
 const STRINGTYPE = {
     INSTRUCTION: 1,
