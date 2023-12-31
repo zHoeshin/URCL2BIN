@@ -180,7 +180,7 @@ function parse(raw){
     return code
 }
 
-function parseArgument(raw){
+function parseArgument(raw, step){
     if(/^-?[0-9]+$/i.test(raw)){
         return [TYPE.CONST, Number(raw)]
     }
@@ -199,6 +199,9 @@ function parseArgument(raw){
     if(raw[0] == "%"){
         if(!Object.keys(PORT).includes(raw.slice(1).toUpperCase())) return [TYPE.PORT, PORT.UD1]
         return [TYPE.PORT, PORT[raw.slice(1).toUpperCase()]]
+    }
+    if(raw[0] == "~"){
+        return [TYPE.LABEL, step + Number(raw.slice(1))]
     }
     if(Object.keys(consts).includes(raw.toUpperCase())) return [TYPE.CONST, consts[raw.toUpperCase()]]
     if(Object.keys(vars).includes(raw.toUpperCase())) return [TYPE.REG, vars[raw.toUpperCase()]]
