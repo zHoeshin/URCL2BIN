@@ -50,6 +50,8 @@ const OPCODE = {
     BLS: 48,
     SRS: 49,
     BSS: 50,
+    LLOD: 51,
+    LSTR: 52,
 }
 const STRINGTYPE = {
     INSTRUCTION: 1,
