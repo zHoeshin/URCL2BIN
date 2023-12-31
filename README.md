@@ -1,6 +1,6 @@
 # Universal URCL Compiler
 
-This utility is a customizable compiler for [URCL](https://github.com/BramOtte/urcl-explorer). It is accessible to use on [GitHub Pages](https://zhoeshin.github.com/URCL2BIN)
+This utility is a customizable compiler for [URCL](https://github.com/BramOtte/urcl-explorer). It is accessible to use on [GitHub Pages](https://zhoeshin.github.io/URCL2BIN)
 
 ### Short user Guide
 
