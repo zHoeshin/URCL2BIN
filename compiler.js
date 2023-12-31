@@ -125,7 +125,7 @@ function compileBits(bytecode, type, bitalign, forcebits = false){
     let l = canvas.bytesize*canvas.modules
     let result = Array(l).fill("-")
 
-    if(forcebits) bytecode = "0".repeat(bits - bytecode.length) + bytecode
+    if(forcebits & (bytecode.length < bits)) bytecode = "0".repeat(bits - bytecode.length) + bytecode
     if((bitalign == 1) | (bitalign == 2)){
         bytecode = bytecode.split("").reverse().join("")
     }
