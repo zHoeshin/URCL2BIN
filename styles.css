@@ -178,7 +178,7 @@ input#useflen[type=checkbox]:checked~.input#flen{
 }
 .token.heared,
 .token.constant{
-    color: #6a9955
+    color: #be81b9
 }.token.string{
     color: #bb846d
 }.token.label{
