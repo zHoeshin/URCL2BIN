@@ -1,0 +1,190 @@
+.splith {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+}.splitv {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    height: calc(70vh - 2em);
+}
+
+.split.top {
+    height: 31vh;
+    min-height: 10em;;
+    flex-shrink: 0;
+    flex-grow: 0;
+    /*resize: vertical;*/
+    overflow:visible;
+}
+.split.bottom {
+    height: 100%;
+    overflow: auto;
+    background-color: #ccc;
+}
+
+.split.left {
+    width: calc(100vw - 20em);
+    max-width: calc(100vw - 20em);
+    min-width: 20em;
+    flex-shrink: 0;
+    flex-grow: 0;
+    /*resize: horizontal;*/
+    overflow: hidden;
+}
+.split.right {
+    width: 100%;
+    overflow: auto;
+    background-color: #ccc;
+}
+
+table{
+    margin: 10px;
+    font-family: monospace;
+    overflow: auto;
+    table-layout: fixed;
+}
+
+.tab {
+    overflow: hidden;
+    /*border: 1px solid #3e3e3e;*/
+    background-color: #3a3a3a;
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+.tab button:hover {
+    background-color: #e3e3e3;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    background-color: #ccc;
+}
+
+button{
+    background-color: #e3e3e3;
+    padding: 2px;
+    border: -6px;
+    font-family: monospace;
+}
+button.master{
+    width: 12em;
+    height: 3em;
+    background-color: inherit;
+    cursor: pointer;
+    background-color: #aaa;
+}
+
+button:hover {
+    background-color: #ccc;
+}
+button:active {
+    background-color: #aaa;
+}
+button.squarebutton {
+    width: 3em;
+    height: 3em;
+    font-size: 1em;
+}
+button.smallsquarebuttom {
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 1em;
+    float: right;
+}
+
+input#useflen[type=checkbox]:checked~.input#flen{
+    pointer-events:none;
+    background-color: #ccc;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 20em;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 10000 !important;
+    top: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.token.comment{
+    color: #6a9955
+}
+.token.number{
+    color: #b5cea8
+}
+.token.register{
+    color: #9cdcfe
+}
+.token.memory,
+.token.port{
+    color:#42ab96
+}
+.token.heared,
+.token.constant{
+    color: #6a9955
+}.token.string{
+    color: #bb846d
+}.token.label{
+    color: #dcdcaa
+}.ace_line{
+    color: #569cd6
+}.token.error{
+    color: #ff3333
+}

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body style="background-color: #2e2e2e;">
+    <div class="splith">
+        <div class="split top">
+            <div style="width: 12em; display: inline-block;">
+                <button class="master" onclick="file.save()">Save compiler settings</button>
+                <button class="master" onclick="file.load()">Load compiler settings</button>
+                <button class="master" onclick="file.compile()">Compile</button>
+                <!--button class="master">Convert to ALSL</button-->
+            </div>
+            <div style="display: inline-block; width: 80%; vertical-align: top;">
+                <div style="overflow-x: auto; overflow-y: hidden;">
+                    <canvas style="background-color: wheat; height: 5em; image-rendering: pixelated;"></canvas>
+                </div>
+                <!--button class="squarebutton" style="float: right" onclick="canvas.addModule()">+</button>
+                <button class="squarebutton" style="float: right" onclick="canvas.removeModule()">-</button>
+                <div style="display: inline-block; vertical-align: top;">
+                    
+                </div-->
+                <div>
+                    <div style="display: inline-block">
+                        <table style="background-color: #ccc;">
+                            <tr>
+                                <td>
+                                    <button class="squarebutton" onclick="canvas.removeModule()">-</button>
+                                    <button class="squarebutton" onclick="canvas.addModule()">+</button>
+                                </td>
+                                <td>
+                                    <button class="squarebutton" id="sample" style="float: right;" disabled="true"></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Clear <button class="smallsquarebuttom" onclick="canvas.select(0)" style="background-color: #ffffff"> </button>
+                                </td>
+                                <td>
+                                    Opcode <button class="smallsquarebuttom" onclick="canvas.select(1)" style="background-color: #ff8888"> </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    OP1 Value <button class="smallsquarebuttom" onclick="canvas.select(2)" style="background-color: #ff2222"> </button>
+                                </td>
+                                <td>
+                                    OP1 Type <button class="smallsquarebuttom" onclick="canvas.select(5)" style="background-color: #aa8888"> </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    OP2 Value <button class="smallsquarebuttom" onclick="canvas.select(3)" style="background-color: #22ff22"> </button>
+                                </td>
+                                <td>
+                                    OP2 Type <button class="smallsquarebuttom" onclick="canvas.select(6)" style="background-color: #88aa88"> </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    OP3 Value <button class="smallsquarebuttom" onclick="canvas.select(4)" style="background-color: #2222ff"> </button>
+                                </td>
+                                <td>
+                                    OP3 Type <button class="smallsquarebuttom" onclick="canvas.select(7)" style="background-color: #8888aa"> </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="display: inline-block">
+                        <table style="border: 2px black; background-color: #ccc; margin: 0;">
+                            <tr>
+                                <td class="tooltip">Opcode bit align<span class="tooltiptext">
+                                    [2ⁿ-2⁰..] - little endian, start filling from the left<br>
+                                    [..2⁰-2ⁿ] - big endian, start filling from the right<br>
+                                    [2⁰-2ⁿ..] - big endian, start filling from the left<br>
+                                    [..2ⁿ-2⁰] - little endian, start filling from the left<br>
+                                </span></td>
+                                <td><select id="bitalign_OPCODE">
+                                    <option value="0">[2ⁿ-2⁰..]</option>
+                                    <option value="1">[..2⁰-2ⁿ]</option>
+                                    <option value="2">[2⁰-2ⁿ..]</option>
+                                    <option value="3">[..2ⁿ-2⁰]</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td class="tooltip">Operand type bit align<span class="tooltiptext">
+                                    [2ⁿ-2⁰..] - little endian, start filling from the left<br>
+                                    [..2⁰-2ⁿ] - big endian, start filling from the right<br>
+                                    [2⁰-2ⁿ..] - big endian, start filling from the left<br>
+                                    [..2ⁿ-2⁰] - little endian, start filling from the left<br>
+                                </span></td>
+                                <td><select id="bitalign_TYPE">
+                                    <option value="0">[2ⁿ-2⁰..]</option>
+                                    <option value="1">[..2⁰-2ⁿ]</option>
+                                    <option value="2">[2⁰-2ⁿ..]</option>
+                                    <option value="3">[..2ⁿ-2⁰]</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td class="tooltip">Operand bit align<span class="tooltiptext">
+                                    [2ⁿ-2⁰..] - little endian, start filling from the left<br>
+                                    [..2⁰-2ⁿ] - big endian, start filling from the right<br>
+                                    [2⁰-2ⁿ..] - big endian, start filling from the left<br>
+                                    [..2ⁿ-2⁰] - little endian, start filling from the left<br>
+                                </span></td>
+                                <td><select id="bitalign_OPERAND">
+                                    <option value="0">[2ⁿ-2⁰..]</option>
+                                    <option value="1">[..2⁰-2ⁿ]</option>
+                                    <option value="2">[2⁰-2ⁿ..]</option>
+                                    <option value="3">[..2ⁿ-2⁰]</option>
+                                </select></td>
+                            </tr>
+                            <tr>
+                                <td class="tooltip">Fixed instruction length<span class="tooltiptext">
+                                    If enabled, each instruction will take set amount of bytes* rather than being cut off after all the operands are listed.<br>
+                                    *byte here: n bits set in the next input
+                                </span></td>
+                                <td><input type="checkbox" id="useflen"><input type="number" id="flen" value="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="tooltip">Byte size<span class="tooltiptext">
+                                    Size of one memory cell. Used to cut off unused operands, so each instructions takes n "bytes" rather than being cut in the middle of a "byte"
+                                </span></td>
+                                <td><input type="number" id="bytesize" value="8" onchange="canvas.changeByteSize(document.getElementById('bytesize').value)"></td>
+                            </tr>
+                            <tr>
+                                <td class="tooltip">Discard fixed operand types<span class="tooltiptext">
+                                    If checked, 0 is written as an operand type if only one type is possible for this operand
+                                </span></td>
+                                <td><input type="checkbox" id="typediscard" checked="true"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="split bottom">
+            <div class="splitv">
+                <div class="split left">
+                    <pre id="code" style="width: 100%; height: 100%; min-height: 500px; margin: 0;"></pre>
+                    <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+                    <script>
+                        editor = ace.edit("code");
+                        editor.setTheme("ace/theme/chaos");
+                        editor.session.setMode("ace/mode/urcl");
+                    </script>
+                </div>
+                <div class="split right">
+                    <div class="tab">
+                        <button class="tablinks" id="tab_opcodes" onclick="revealTab(event, 'opcodes')">OPCODES</button>
+                        <button class="tablinks" id="tab_opcodes" onclick="revealTab(event, 'types')">TYPES</button>
+                    </div>
+                    
+                    <div id="opcodes" class="tabcontent">
+                        <table id="opcodestable">
+                            <tr>
+                                <th>KEYWORD</th>
+                                <th>OPCODE</th>
+                            </tr>
+                            <!--tr>
+                                <td>ADD</td>
+                                <td><input id="opcode_ADD" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>SUB</td>
+                                <td><input id="opcode_SUB" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>RSH</td>
+                                <td><input id="opcode_RSH" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>LSH</td>
+                                <td><input id="opcode_LSH" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>INC</td>
+                                <td><input id="opcode_INC" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>DEC</td>
+                                <td><input id="opcode_DEC" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>NEG</td>
+                                <td><input id="opcode_NEG" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>ABS</td>
+                                <td><input id="opcode_ABS" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>IMM</td>
+                                <td><input id="opcode_IMM" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>LOD</td>
+                                <td><input id="opcode_LOD" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>STR</td>
+                                <td><input id="opcode_STR" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>MOV</td>
+                                <td><input id="opcode_MOV" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>CPY</td>
+                                <td><input id="opcode_CPY" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>PSH</td>
+                                <td><input id="opcode_PSH" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>POP</td>
+                                <td><input id="opcode_POP" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>OR</td>
+                                <td><input id="opcode_OR" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>NOR</td>
+                                <td><input id="opcode_NOR" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>NOT</td>
+                                <td><input id="opcode_NOT" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>XOR</td>
+                                <td><input id="opcode_XOR" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>XNOR</td>
+                                <td><input id="opcode_XNOR" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>AND</td>
+                                <td><input id="opcode_AND" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>NAND</td>
+                                <td><input id="opcode_NAND" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRL</td>
+                                <td><input id="opcode_BRL" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BGE</td>
+                                <td><input id="opcode_BGE" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BLE</td>
+                                <td><input id="opcode_BLE" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRG</td>
+                                <td><input id="opcode_BRG" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRE</td>
+                                <td><input id="opcode_BRE" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BNE</td>
+                                <td><input id="opcode_BNE" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRZ</td>
+                                <td><input id="opcode_BRZ" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BNZ</td>
+                                <td><input id="opcode_BNZ" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRN</td>
+                                <td><input id="opcode_BRN" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRP</td>
+                                <td><input id="opcode_BRP" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BOD</td>
+                                <td><input id="opcode_BOD" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BEV</td>
+                                <td><input id="opcode_BEV" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BRC</td>
+                                <td><input id="opcode_BRC" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>BNC</td>
+                                <td><input id="opcode_BNC" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>CAL</td>
+                                <td><input id="opcode_CAL" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>JMP</td>
+                                <td><input id="opcode_JMP" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>RET</td>
+                                <td><input id="opcode_RET" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>HLT</td>
+                                <td><input id="opcode_HLT" class="opcode" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>NOP</td>
+                                <td><input id="opcode_NOP" class="opcode" type="text"></td>
+                            </tr-->
+                        </table>
+                    </div>
+                    
+                    <div id="types" class="tabcontent">
+                        <table>
+                            <tr>
+                                <th>TYPE</th>
+                                <th>TYPECODE</th>
+                            </tr>
+                            <tr>
+                                <td>Immediate</td>
+                                <td><input id="type_CONST" class="type" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Label</td>
+                                <td><input id="type_LABEL" class="type" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Register</td>
+                                <td><input id="type_REG" class="type" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>RAM Address</td>
+                                <td><input id="type_RAMADDRESS" class="type" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Relative Address</td>
+                                <td><input id="type_RELADDRESS" class="type" type="text"></td>
+                            </tr>
+                            <tr>
+                                <td>Port</td>
+                                <td><input id="type_PORT" class="type" type="text"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        for(let i of document.getElementsByClassName("opcode")){
+            i.onchange = (e)=>{
+                let r = ''
+                for(i of e.target.value){
+                    if('01'.includes(i)){
+                        r = `${r}${i}`
+                    }
+                }
+                e.target.value = r
+            }
+        }
+        for(let i of document.getElementsByClassName("type")){
+            i.onchange = (e)=>{
+                let r = ''
+                for(i of e.target.value){
+                    if('01'.includes(i)){
+                        r = `${r}${i}`
+                    }
+                }
+                e.target.value = r
+            }
+        }
+    </script>
+    <script>
+        function revealTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        revealTab({currentTarget: document.getElementById("tab_opcodes")}, 'opcodes')
+    </script>
+    <script src="index.js"></script>
+    <script src="lexer.js"></script>
+    <script src="compiler.js"></script>
+    <script src="revert.js"></script>
+    <script>
+        canvas.setUp()
+        canvas.addModule()
+        canvas.select(0)
+        let table = document.getElementById("opcodestable")
+        for(let i of Object.keys(OPCODE)){
+            table.innerHTML += `
+<tr>
+<td>${i}</td>
+<td><input id="opcode_${i}" class="opcode" type="text"></td>
+</tr>`
+        }
+
+        fetch('./DEFAULT.json').then(v => {
+            v.text().then(txt => {
+                loadSettings(JSON.parse(txt))
+            })
+        })
+    </script>
+</body>
